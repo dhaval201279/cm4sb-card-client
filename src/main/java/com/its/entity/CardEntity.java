@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CardEntity implements Serializable {
+public class CardEntity {
     private String issuingNetwork;
     private String cardNumber;
     private String name;

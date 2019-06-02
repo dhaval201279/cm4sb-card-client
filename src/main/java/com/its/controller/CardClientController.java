@@ -2,6 +2,7 @@ package com.its.controller;
 
 import com.its.entity.CardEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class CardClientController {
 
 
     public CardClientController(WebClient.Builder webClientBuilder) {
-        log.info("111 Instantiating WebClientBuilder within constructor of CardClientController ");
+        log.info("&&&&& Instantiating WebClientBuilder within constructor of CardClientController ");
         this.webClientBuilder = webClientBuilder;
     }
 
@@ -41,10 +42,12 @@ public class CardClientController {
                             .get()
                             //.uri("http://localhost:8091/cards")
                             .uri("http://cm4sb-card-service/cards")
+                            .accept(MediaType.APPLICATION_JSON)
+                            //.uri("http://cm4sb-creditCard-service/cards")
                             .retrieve()
                             .bodyToFlux(CardEntity.class);
 
-        log.info("Flux of card obtained from card-service application");
+        log.info("Flux of all the card obtained from card-service application");
         return cardFlux
                 .collectList();
                 //.onErrorReturn(Collections.singletonList(fallBackCard));
@@ -53,13 +56,19 @@ public class CardClientController {
     @GetMapping("/card/{cardId}")
     public Mono<CardEntity> cardById(@PathVariable String cardId) {
         log.info("Entering CardClientController : cardById with path variable as {} ", cardId);
-        return webClientBuilder
+         Mono<CardEntity> cardEntityMono = webClientBuilder
                 .build()
                 .get()
                 //.uri("http://localhost:8091/card/{cardId}", cardId)
                 .uri("http://cm4sb-card-service/card/{cardId}", cardId)
+                //.uri("http://cm4sb-creditCard-service/card/{cardId}")
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(CardEntity.class);
                 //.onErrorReturn(fallBackCard);
+
+        log.info("Fetched cardentitymono ");
+
+        return cardEntityMono;
     }
 }
