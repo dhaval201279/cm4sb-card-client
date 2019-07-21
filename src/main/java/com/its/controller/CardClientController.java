@@ -49,25 +49,25 @@ public class CardClientController {
 
         log.info("Flux of all the card obtained from card-service application");
         return cardFlux
-                .collectList();
-                //.onErrorReturn(Collections.singletonList(fallBackCard));
+                .collectList()
+                .onErrorReturn(Collections.singletonList(fallBackCard));
     }
 
     @GetMapping("/card/{cardId}")
     public Mono<CardEntity> cardById(@PathVariable String cardId) {
         log.info("Entering CardClientController : cardById with path variable as {} ", cardId);
          Mono<CardEntity> cardEntityMono = webClientBuilder
-                .build()
-                .get()
-                //.uri("http://localhost:8091/card/{cardId}", cardId)
-                .uri("http://cm4sb-card-service/card/{cardId}", cardId)
-                //.uri("http://cm4sb-creditCard-service/card/{cardId}")
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(CardEntity.class);
-                //.onErrorReturn(fallBackCard);
+                                            .build()
+                                            .get()
+                                            //.uri("http://localhost:8091/card/{cardId}", cardId)
+                                            .uri("http://cm4sb-card-service/card/{cardId}", cardId)
+                                            //.uri("http://cm4sb-creditCard-service/card/{cardId}")
+                                            .accept(MediaType.APPLICATION_JSON)
+                                            .retrieve()
+                                            .bodyToMono(CardEntity.class)
+                                            .onErrorReturn(fallBackCard);
 
-        log.info("Fetched cardentitymono ");
+        log.info("Fetched cardentity mono ");
 
         return cardEntityMono;
     }

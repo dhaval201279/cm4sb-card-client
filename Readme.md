@@ -1,7 +1,13 @@
-Reference application used for demonstrating 'Chaos Engineering' using -
-1. Chaos Monkey for Spring Boot
-2. Consul
-3. Prometheus
-4. Grafana
+# Source code of my [blog]() on how to perform [Chaos Engineering](https://principlesofchaos.org/) using
+1. [Chaos Monkey for Spring Boot](https://github.com/codecentric/chaos-monkey-spring-boot)
+2. [Consul](https://www.consul.io/)
+3. [Prometheus](https://prometheus.io/)
+4. [Grafana](https://grafana.com/)
 
-This is a client application which will be consuming APIs exposed by card-service application
+#### Card Client APIs
+Edge application responsible for consuming [Card Service APIs](https://github.com/dhaval201279/cm4sb-card-service)
+
+Method	| Path	| Description
+------------- | ------------------------- | ------------- |
+GET	| /card/{cardId}	| Gets Card based on card identifier	
+GET	| /cards	| Fetches all cards stored in database
